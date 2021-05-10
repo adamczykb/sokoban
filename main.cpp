@@ -45,8 +45,11 @@ int main() {
                     sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                     if(localPosition.x>=303 and localPosition.x<303+592.5){
                         if(localPosition.y>=375 and localPosition.y<375+105){ //play
-                            current=scenes::game;
                             file_data = read_new_map();
+                            if (file_data.correct_file == 1)
+                                current=scenes::game;
+                            else
+                                printf("Niepoprawny plik");
                         }
                         if(localPosition.y>=500 and localPosition.y<500+105){ //load
                             file_data = read_saved_map();

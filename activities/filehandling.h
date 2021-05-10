@@ -9,6 +9,7 @@ struct File_data {
     int **matrix;
     int steps;
     int game_time;
+    int correct_file;
 };
 File_data read_new_map();
 File_data read_saved_map();
