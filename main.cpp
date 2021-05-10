@@ -11,7 +11,7 @@ int main() {
     enum scenes current;
     sf::ContextSettings window_exit;
     window_exit.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(1200, 800), "Dungeon fighter", sf::Style::Default, window_exit);
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "Sokoban - Bartosz Adamczyk, Pawel Dopierala", sf::Style::Close, window_exit);
     window.setFramerateLimit(120);
     window.setVerticalSyncEnabled(true);
 
