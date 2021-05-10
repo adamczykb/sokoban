@@ -2,6 +2,7 @@
 #include "activities/homescreen.h"
 #include "activities/worldrender.h"
 #include "activities/movement.h"
+#include "activities/filehandling.h"
 
 sf::Event event;
 enum scenes {
@@ -9,6 +10,7 @@ enum scenes {
 };
 enum scenes current;
 sf::Font font;
+File_data file_data;
 int main() {
     home_declare();
     game_declare();
@@ -33,7 +35,9 @@ int main() {
                 if (event.key.code == sf::Keyboard::Escape) {
                     current = home_screen;
                 }else{
-                    manage_action(&event,NULL);
+                    if(current == scenes::game)
+                        manage_action(&event,file_data.matrix);
+                        file_data.steps++;
                 }
             }
             if(event.type == sf::Event::MouseButtonPressed) {
@@ -42,10 +46,10 @@ int main() {
                     if(localPosition.x>=303 and localPosition.x<303+592.5){
                         if(localPosition.y>=375 and localPosition.y<375+105){ //play
                             current=scenes::game;
-                            //todo: załaduj nowa mape tutaj
+                            file_data = read_new_map();
                         }
                         if(localPosition.y>=500 and localPosition.y<500+105){ //load
-                            //todo: załaduj stara mape tutaj
+                            file_data = read_saved_map();
                         }
                         if(localPosition.y>=625 and localPosition.y<625+105){ //exit
                             exit(0);

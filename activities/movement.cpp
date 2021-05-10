@@ -4,6 +4,9 @@
 
 #include <stdio.h>
 #include "movement.h"
+
+//todo: find hero
+
 void manage_action(sf::Event *event, int **matrix){
     switch (event->key.code) {
         case sf::Keyboard::Left:
@@ -23,7 +26,7 @@ void manage_action(sf::Event *event, int **matrix){
 
 void left_action(int **matrix){
     fflush(stdout);
-    printf("lewo");
+    printf("%d",matrix[5][5]);
 }
 
 void right_action(int **matrix){
