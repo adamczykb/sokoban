@@ -1,13 +1,19 @@
 #include <SFML/Graphics.hpp>
-#include "define.cpp"
+#include "activities/homescreen.h"
+#include "activities/worldrender.h"
+#include "activities/movement.h"
 
-void define();
-
+sf::Event event;
+enum scenes {
+    home_screen, game
+};
+enum scenes current;
+sf::Font font;
 int main() {
-    define();
-
+    home_declare();
+    game_declare();
     sf::ContextSettings window_exit;
-    window_exit.antialiasingLevel = 8;
+    window_exit.antialiasingLevel = 2;
     sf::RenderWindow window(sf::VideoMode(1200, 800), "Sokoban - Bartosz Adamczyk, Pawel Dopierala", sf::Style::Close, window_exit);
     window.setFramerateLimit(120);
     window.setVerticalSyncEnabled(true);
@@ -26,6 +32,8 @@ int main() {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
                     current = home_screen;
+                }else{
+                    manage_action(&event,NULL);
                 }
             }
             if(event.type == sf::Event::MouseButtonPressed) {
@@ -34,10 +42,10 @@ int main() {
                     if(localPosition.x>=303 and localPosition.x<303+592.5){
                         if(localPosition.y>=375 and localPosition.y<375+105){ //play
                             current=scenes::game;
+                            //todo: załaduj nowa mape tutaj
                         }
                         if(localPosition.y>=500 and localPosition.y<500+105){ //load
-                            fflush(stdout);
-                            printf("LOAD");
+                            //todo: załaduj stara mape tutaj
                         }
                         if(localPosition.y>=625 and localPosition.y<625+105){ //exit
                             exit(0);
@@ -50,13 +58,10 @@ int main() {
         window.clear();
         switch (current) {
             case home_screen:
-                window.draw(background_sprite_home);
-                window.draw(play_button_sprite);
-                window.draw(load_button_sprite);
-                window.draw(exit_button_sprite);
+                render_home_window(&window);
                 break;
             case game:
-                window.draw(background_sprite_game);
+                render_game_window(&window);
                 break;
         }
 
@@ -66,25 +71,3 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-void define() {
-
-    background_tex_home.loadFromFile("../sprites/background/home.png", sf::IntRect(0, 0, 1200, 800));
-    background_sprite_home.setTexture(background_tex_home);
-    background_sprite_home.setPosition(sf::Vector2f(0.f, 0.f));
-
-    background_tex_game.loadFromFile("../sprites/background/game.png", sf::IntRect(0, 0, 1200, 800));
-    background_sprite_game.setTexture(background_tex_game);
-    background_sprite_game.setPosition(sf::Vector2f(0.f, 0.f));
-
-    play_button_tex.loadFromFile("../sprites/button/play_butt.png", sf::IntRect(0, 0, 592.5, 105));
-    play_button_sprite.setTexture(play_button_tex);
-    play_button_sprite.setPosition(sf::Vector2f(303.f, 375.f));
-
-    load_button_tex.loadFromFile("../sprites/button/load_butt.png", sf::IntRect(0, 0, 592.5, 105));
-    load_button_sprite.setTexture(load_button_tex);
-    load_button_sprite.setPosition(sf::Vector2f(303.f, 500.f));
-
-    exit_button_tex.loadFromFile("../sprites/button/exit_butt.png", sf::IntRect(0, 0, 592.5, 105));
-    exit_button_sprite.setTexture(exit_button_tex);
-    exit_button_sprite.setPosition(sf::Vector2f(303.f, 625.f));
-}
