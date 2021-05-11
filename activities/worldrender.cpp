@@ -35,7 +35,6 @@ void map_render(sf::RenderWindow *window, int **matrix) {
 
             // find its position in the tileset texture
             int tu = tileNumber % (tileset.getSize().x / tileSize.x);
-            int tv = tileNumber / (tileset.getSize().x / tileSize.x);
 
             // get a pointer to the current tile's quad
             sf::Vertex* quad = &vertices[(i + j * 12) * 8];
