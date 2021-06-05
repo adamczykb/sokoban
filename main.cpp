@@ -37,9 +37,9 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 if(current == scenes::game){
                     if(save_map(file_data) == 1){
-                        printf("Poprawnie zapisano gre\n");
+                        open_alert_box("Poprawnie zapisano gre","Komunikat");
                     } else {
-                        printf("Niepoprawnie zapisano gre\n");
+                        open_alert_box("Niepoprawnie zapisano gre","Komunikat");
                     }
                 }
                 window.close();
@@ -47,9 +47,9 @@ int main() {
             if (event.type == sf::Event::KeyPressed && current == scenes::game) {
                 if(event.key.code == sf::Keyboard::Escape){
                     if(save_map(file_data) == 1){
-                        printf("Poprawnie zapisano gre\n");
+                        open_alert_box("Poprawnie zapisano gre","Komunikat");
                     } else {
-                        printf("Niepoprawnie zapisano gre\n");
+                        open_alert_box("Niepoprawnie zapisano gre","Komunikat");
                     }
                     current = home_screen;
                 } else {
@@ -67,7 +67,8 @@ int main() {
                                 current = scenes::game;
                                 time = sf::seconds(0);
                             } else
-                                printf("Niepoprawny plik");
+                                open_alert_box("Niepoprawny plik","Komunikat");
+
                         }
                         if (localPosition.y >= 500 and localPosition.y < 500 + 105) { //load
                             file_data = read_saved_map();
@@ -76,7 +77,7 @@ int main() {
                                 time = sf::seconds(file_data.game_time);
                             }
                             else
-                                printf("Niepoprawny plik");
+                                open_alert_box("Niepoprawny plik","Komunikat");
 
                         }
                         if (localPosition.y >= 625 and localPosition.y < 625 + 105) { //exit
