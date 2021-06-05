@@ -43,19 +43,16 @@ int main() {
                 }
                 window.close();
             }
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Escape) {
-                    if(current == scenes::game){
-                        if(save_map(file_data) == 1){
-                            printf("Poprawnie zapisano gre\n");
-                        } else {
-                            printf("Niepoprawnie zapisano gre\n");
-                        }
+            if (event.type == sf::Event::KeyPressed && current == scenes::game) {
+                if(event.key.code == sf::Keyboard::Escape){
+                    if(save_map(file_data) == 1){
+                        printf("Poprawnie zapisano gre\n");
+                    } else {
+                        printf("Niepoprawnie zapisano gre\n");
                     }
                     current = home_screen;
                 } else {
-                    if (current == scenes::game)
-                        manage_action(&event, file_data.matrix);
+                    manage_action(&event, file_data.matrix);
                     file_data.steps++;
                 }
             }
