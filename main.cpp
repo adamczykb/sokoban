@@ -3,6 +3,7 @@
 #include "activities/worldrender.h"
 #include "activities/movement.h"
 #include "activities/filehandling.h"
+#include "activities/alert.h"
 
 sf::Event event;
 enum scenes {
