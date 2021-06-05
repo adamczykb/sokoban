@@ -26,6 +26,7 @@ int main() {
     window.setVerticalSyncEnabled(true);
 
     current = home_screen;
+    int win = 0;
 
     if (!font.loadFromFile("../fonts/ARCADECLASSIC.ttf"))
         return EXIT_FAILURE;
@@ -43,8 +44,7 @@ int main() {
                     }
                 }
                 window.close();
-            }
-            if (event.type == sf::Event::KeyPressed && current == scenes::game) {
+            } else if (event.type == sf::Event::KeyPressed && current == scenes::game) {
                 if(event.key.code == sf::Keyboard::Escape){
                     if(save_map(file_data) == 1){
                         open_alert_box("Poprawnie zapisano gre","Komunikat");
@@ -52,12 +52,18 @@ int main() {
                         open_alert_box("Niepoprawnie zapisano gre","Komunikat");
                     }
                     current = home_screen;
-                } else {
-                    manage_action(&event, file_data.matrix);
+                } else if (event.key.code == sf::Keyboard::R) {
+                    file_data = read_new_map();
+                    if (file_data.correct_file == 1) {
+                        current = scenes::game;
+                        time = sf::seconds(0);
+                    } else
+                        open_alert_box("Niepoprawny plik","Komunikat");
+                } else if(event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down) {
+                    win = manage_action(&event, file_data.matrix) == 1;
                     file_data.steps++;
                 }
-            }
-            if (event.type == sf::Event::MouseButtonPressed) {
+            } else if (event.type == sf::Event::MouseButtonPressed) {
                 if (current == scenes::home_screen) {
                     sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                     if (localPosition.x >= 303 and localPosition.x < 303 + 592.5) {
@@ -86,13 +92,11 @@ int main() {
                     }
                 }
             }
-
         }
         window.clear();
         switch (current) {
             case home_screen:
                 render_home_window(&window);
-
                 break;
             case game:
                 time += clock.restart();
@@ -100,8 +104,12 @@ int main() {
                 render_game_window(&window, &font, file_data.matrix, file_data.steps, file_data.game_time);
                 break;
         }
-
         window.display();
+        if(win == 1){
+            open_alert_box("Wygrales   gre!\nGratulujemy!","Gratulacje!");
+            win = 0;
+            current = home_screen;
+        }
     }
 
     return EXIT_SUCCESS;

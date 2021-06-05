@@ -17,7 +17,7 @@ void render_infos(sf::RenderWindow *window, sf::Font *font, int steps, int game_
     sf::Text text;
     text.setFont(*font); // font is a sf::Font
     char arraytab[255]{};
-    sprintf(arraytab, "  c lick   esc   to\n  save   and   exit\n\n  Step\n  %d\n\n  Time\n  %d s", steps, game_time);
+    sprintf(arraytab, "  c lick   esc   to\n  save   and   exit\n\n  c lick   R   to\n  restart\n\n  Step\n  %d\n\n  Time\n  %d s", steps, game_time);
     text.setString(arraytab);
     text.setCharacterSize(26);
     text.setFillColor(sf::Color(71,30,20));

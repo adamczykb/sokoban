@@ -23,7 +23,7 @@ Hero find_hero(int **matrix){
     return hero;
 }
 
-void manage_action(sf::Event *event, int **matrix) {
+int manage_action(sf::Event *event, int **matrix) {
     int step_i, step_j, behind_step_i, behind_step_j;
     Hero hero = find_hero(matrix);
     switch (event->key.code) {
@@ -56,10 +56,11 @@ void manage_action(sf::Event *event, int **matrix) {
     if(free_place(matrix, hero, step_i, step_j) == 0){
         if(move_box(matrix, hero, step_i, step_j, behind_step_i, behind_step_j) == 1){
             if(check_win(matrix) == 1){
-                win_action();
+                return 1;
             }
         }
     }
+    return 0;
 }
 
 int free_place(int **matrix, Hero hero, int step_i, int step_j){
@@ -135,8 +136,4 @@ int check_win(int **matrix){
         }
     }
     return 1;
-}
-
-void win_action(){
-    printf("Gratulacje, wygrales\n");
 }
