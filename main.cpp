@@ -33,10 +33,21 @@ int main() {
     while (window.isOpen()) {
 
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed and current == scenes::game) {
+                if(save_map(file_data) == 1){
+                    printf("Poprawnie zapisano gre\n");
+                } else {
+                    printf("Niepoprawnie zapisano gre\n");
+                }
                 window.close();
+            }
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
+                    if(save_map(file_data) == 1){
+                        printf("Poprawnie zapisano gre\n");
+                    } else {
+                        printf("Niepoprawnie zapisano gre\n");
+                    }
                     current = home_screen;
                 } else {
                     if (current == scenes::game)
@@ -58,7 +69,13 @@ int main() {
                         }
                         if (localPosition.y >= 500 and localPosition.y < 500 + 105) { //load
                             file_data = read_saved_map();
-                            time = sf::seconds(file_data.game_time);
+                            if (file_data.correct_file == 1){
+                                current=scenes::game;
+                                time = sf::seconds(file_data.game_time);
+                            }
+                            else
+                                printf("Niepoprawny plik");
+
                         }
                         if (localPosition.y >= 625 and localPosition.y < 625 + 105) { //exit
                             exit(0);

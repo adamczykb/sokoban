@@ -14,4 +14,5 @@ struct File_data {
 File_data read_new_map();
 File_data read_saved_map();
 File_data read_map(FILE *f);
+int save_map(File_data fileData);
 #endif //LLC_GAME_FILEHANDLING_H
