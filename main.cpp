@@ -33,20 +33,24 @@ int main() {
     while (window.isOpen()) {
 
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed and current == scenes::game) {
-                if(save_map(file_data) == 1){
-                    printf("Poprawnie zapisano gre\n");
-                } else {
-                    printf("Niepoprawnie zapisano gre\n");
+            if (event.type == sf::Event::Closed) {
+                if(current == scenes::game){
+                    if(save_map(file_data) == 1){
+                        printf("Poprawnie zapisano gre\n");
+                    } else {
+                        printf("Niepoprawnie zapisano gre\n");
+                    }
                 }
                 window.close();
             }
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
-                    if(save_map(file_data) == 1){
-                        printf("Poprawnie zapisano gre\n");
-                    } else {
-                        printf("Niepoprawnie zapisano gre\n");
+                    if(current == scenes::game){
+                        if(save_map(file_data) == 1){
+                            printf("Poprawnie zapisano gre\n");
+                        } else {
+                            printf("Niepoprawnie zapisano gre\n");
+                        }
                     }
                     current = home_screen;
                 } else {
