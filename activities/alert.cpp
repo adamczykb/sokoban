@@ -13,7 +13,6 @@
 #include "alert.h"
 
 
-
 void open_alert_box(char *text, char *title) {
     sf::Event eventAlert;
     sf::Sprite background_sprite_alert;
@@ -33,7 +32,7 @@ void open_alert_box(char *text, char *title) {
     alert.setFont(fontAlert);
     alert.setString(text);
     alert.setCharacterSize(40);
-    alert.setFillColor(sf::Color(71,30,20));
+    alert.setFillColor(sf::Color(71, 30, 20));
     sf::FloatRect textRect = alert.getLocalBounds();
     alert.setOrigin(textRect.left + textRect.width / 2.0f,
                     textRect.top + textRect.height / 2.0f);
@@ -48,7 +47,7 @@ void open_alert_box(char *text, char *title) {
                 window.close();
             }
             if (eventAlert.type == sf::Event::KeyPressed) {
-                if (eventAlert.key.code == sf::Keyboard::Escape) {
+                if (eventAlert.key.code == sf::Keyboard::Escape || eventAlert.key.code == sf::Keyboard::Enter) {
                     window.close();
                 }
             }
