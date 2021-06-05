@@ -12,9 +12,9 @@ struct Hero{
 };
 Hero find_hero(int **matrix);
 void manage_action(sf::Event *event, int **matrix);
-void left_action(int **matrix);
-void right_action(int **matrix);
-void up_action(int **matrix);
-void down_action(int **matrix);
+int free_place(int **matrix, Hero hero, int step_i, int step_j);
+int move_box(int **matrix, Hero hero, int step_i, int step_j, int behind_step_i, int behind_step_j);
+int check_win(int **matrix);
+void win_action();
 
 #endif //LLC_GAME_MOVEMENT_H

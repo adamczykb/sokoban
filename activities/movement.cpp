@@ -23,41 +23,120 @@ Hero find_hero(int **matrix){
     return hero;
 }
 
-void manage_action(sf::Event *event, int **matrix){
+void manage_action(sf::Event *event, int **matrix) {
+    int step_i, step_j, behind_step_i, behind_step_j;
+    Hero hero = find_hero(matrix);
     switch (event->key.code) {
         case sf::Keyboard::Left:
-            left_action(matrix);
+            step_i = hero.i;
+            step_j = hero.j - 1;
+            behind_step_i = hero.i;
+            behind_step_j = hero.j - 2;
             break;
         case sf::Keyboard::Right:
-            right_action(matrix);
+            step_i = hero.i;
+            step_j = hero.j + 1;
+            behind_step_i = hero.i;
+            behind_step_j = hero.j + 2;
             break;
         case sf::Keyboard::Up:
-            up_action(matrix);
+            step_i = hero.i - 1;
+            step_j = hero.j;
+            behind_step_i = hero.i - 2;
+            behind_step_j = hero.j;
             break;
         case sf::Keyboard::Down:
-            down_action(matrix);
+            step_i = hero.i + 1;
+            step_j = hero.j;
+            behind_step_i = hero.i + 2;
+            behind_step_j = hero.j;
             break;
+    }
+
+    if(free_place(matrix, hero, step_i, step_j) == 0){
+        if(move_box(matrix, hero, step_i, step_j, behind_step_i, behind_step_j) == 1){
+            if(check_win(matrix) == 1){
+                win_action();
+            }
+        }
     }
 }
 
-void left_action(int **matrix){
-    fflush(stdout);
-    Hero hero = find_hero(matrix);
-    printf("Bohater jest w miejscu %d, %d i ma target_place = %d\n", hero.i, hero.j, hero.target_place);
-    matrix[0][0] = 3;
+int free_place(int **matrix, Hero hero, int step_i, int step_j){
+    if(matrix[step_i][step_j] == 1) {
+        matrix[step_i][step_j] = 4;
+        if(hero.target_place == 0){
+            matrix[hero.i][hero.j] = 1;
+        } else {
+            matrix[hero.i][hero.j] = 2;
+        }
+        return 1;
+    } else if(matrix[step_i][step_j] == 2) {
+        matrix[step_i][step_j] = 5;
+        if(hero.target_place == 0){
+            matrix[hero.i][hero.j] = 1;
+        } else {
+            matrix[hero.i][hero.j] = 2;
+        }
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
-void right_action(int **matrix){
-    fflush(stdout);
-    matrix[0][11] = 3;
+int move_box(int **matrix, Hero hero, int step_i, int step_j, int behind_step_i, int behind_step_j){
+    if(matrix[step_i][step_j] == 6 && matrix[behind_step_i][behind_step_j] == 1){
+        matrix[behind_step_i][behind_step_j] = 6;
+        matrix[step_i][step_j] = 4;
+        if(hero.target_place == 0){
+            matrix[hero.i][hero.j] = 1;
+        } else {
+            matrix[hero.i][hero.j] = 2;
+        }
+        return 1;
+    } else if(matrix[step_i][step_j] == 6 && matrix[behind_step_i][behind_step_j] == 2) {
+        matrix[behind_step_i][behind_step_j] = 7;
+        matrix[step_i][step_j] = 4;
+        if(hero.target_place == 0){
+            matrix[hero.i][hero.j] = 1;
+        } else {
+            matrix[hero.i][hero.j] = 2;
+        }
+        return 1;
+    } else if(matrix[step_i][step_j] == 7 && matrix[behind_step_i][behind_step_j] == 1) {
+        matrix[behind_step_i][behind_step_j] = 6;
+        matrix[step_i][step_j] = 5;
+        if(hero.target_place == 0){
+            matrix[hero.i][hero.j] = 1;
+        } else {
+            matrix[hero.i][hero.j] = 2;
+        }
+        return 1;
+    }  else if(matrix[step_i][step_j] == 7 && matrix[behind_step_i][behind_step_j] == 2) {
+        matrix[behind_step_i][behind_step_j] = 7;
+        matrix[step_i][step_j] = 5;
+        if(hero.target_place == 0){
+            matrix[hero.i][hero.j] = 1;
+        } else {
+            matrix[hero.i][hero.j] = 2;
+        }
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
-void up_action(int **matrix){
-    fflush(stdout);
-    matrix[11][0] = 3;
+int check_win(int **matrix){
+    for(int i=0; i<12; i++){
+        for(int j=0; j<12; j++){
+            if(matrix[i][j] == 2){
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 
-void down_action(int **matrix){
-    fflush(stdout);
-    matrix[11][11] = 3;
+void win_action(){
+    printf("Gratulacje, wygrales\n");
 }
