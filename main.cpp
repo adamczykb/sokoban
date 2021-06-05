@@ -11,7 +11,10 @@ enum scenes {
 enum scenes current;
 sf::Font font;
 File_data file_data;
+
 int main() {
+    sf::Clock clock;
+    sf::Time time;
     home_declare();
     game_declare();
     sf::ContextSettings window_exit;
@@ -23,7 +26,7 @@ int main() {
 
     current = home_screen;
 
-    if (!font.loadFromFile("../fonts/arial.ttf"))
+    if (!font.loadFromFile("../fonts/ARCADECLASSIC.ttf"))
         return EXIT_FAILURE;
 
 
@@ -35,27 +38,28 @@ int main() {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
                     current = home_screen;
-                }else{
-                    if(current == scenes::game)
-                        manage_action(&event,file_data.matrix);
-                        file_data.steps++;
+                } else {
+                    if (current == scenes::game)
+                        manage_action(&event, file_data.matrix);
+                    file_data.steps++;
                 }
             }
-            if(event.type == sf::Event::MouseButtonPressed) {
+            if (event.type == sf::Event::MouseButtonPressed) {
                 if (current == scenes::home_screen) {
                     sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-                    if(localPosition.x>=303 and localPosition.x<303+592.5){
-                        if(localPosition.y>=375 and localPosition.y<375+105){ //play
+                    if (localPosition.x >= 303 and localPosition.x < 303 + 592.5) {
+                        if (localPosition.y >= 375 and localPosition.y < 375 + 105) { //play
                             file_data = read_new_map();
-                            if (file_data.correct_file == 1)
-                                current=scenes::game;
-                            else
+                            if (file_data.correct_file == 1) {
+                                current = scenes::game;
+                                time = sf::seconds(0);
+                            } else
                                 printf("Niepoprawny plik");
                         }
-                        if(localPosition.y>=500 and localPosition.y<500+105){ //load
+                        if (localPosition.y >= 500 and localPosition.y < 500 + 105) { //load
                             file_data = read_saved_map();
                         }
-                        if(localPosition.y>=625 and localPosition.y<625+105){ //exit
+                        if (localPosition.y >= 625 and localPosition.y < 625 + 105) { //exit
                             exit(0);
                         }
                     }
@@ -67,9 +71,12 @@ int main() {
         switch (current) {
             case home_screen:
                 render_home_window(&window);
+
                 break;
             case game:
-                render_game_window(&window,file_data.matrix);
+                time += clock.restart();
+                file_data.game_time = time.asSeconds();
+                render_game_window(&window, &font, file_data.matrix, file_data.steps, file_data.game_time);
                 break;
         }
 

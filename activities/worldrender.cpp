@@ -13,8 +13,21 @@ void game_declare() {
     background_sprite_game.setPosition(sf::Vector2f(0.f, 0.f));
 }
 
-void render_game_window(sf::RenderWindow *window, int **matrix) {
+void render_infos(sf::RenderWindow *window, sf::Font *font, int steps, int game_time) {
+    sf::Text text;
+    text.setFont(*font); // font is a sf::Font
+    char arraytab[255]{};
+    sprintf(arraytab, "  esc  to  exit\n\n  Step\n  %d\n\n  Time\n  %d s", steps, game_time);
+    text.setString(arraytab);
+    text.setCharacterSize(26);
+    text.setFillColor(sf::Color::Black);
+    window->draw(text);
+}
+
+void render_game_window(sf::RenderWindow *window, sf::Font *font, int **matrix, int steps, int game_time) {
+
     window->draw(background_sprite_game);
+    render_infos(window, font, steps, game_time);
     map_render(window, matrix);
 }
 
@@ -27,9 +40,9 @@ void map_render(sf::RenderWindow *window, int **matrix) {
     vertices.resize(12 * 12 * 8);
     // resize the vertex array to fit the level size
 
+
     for (unsigned int j = 0; j < 12; ++j)
-        for (unsigned int i = 0; i < 12; ++i)
-        {
+        for (unsigned int i = 0; i < 12; ++i) {
             // get the current tile number
             int tileNumber = matrix[j][i];
 
@@ -37,13 +50,13 @@ void map_render(sf::RenderWindow *window, int **matrix) {
             int tu = tileNumber % (tileset.getSize().x / tileSize.x);
 
             // get a pointer to the current tile's quad
-            sf::Vertex* quad = &vertices[(i + j * 12) * 8];
+            sf::Vertex *quad = &vertices[(i + j * 12) * 8];
 
             // define its 4 corners
-            quad[0].position = sf::Vector2f(198+i * tileSize.x, j * tileSize.y);
-            quad[1].position = sf::Vector2f(198+(i + 1) * tileSize.x, j * tileSize.y);
-            quad[2].position = sf::Vector2f(198+(i + 1) * tileSize.x, (j + 1) * tileSize.y);
-            quad[3].position = sf::Vector2f(198+i * tileSize.x, (j + 1) * tileSize.y);
+            quad[0].position = sf::Vector2f(198 + i * tileSize.x, j * tileSize.y);
+            quad[1].position = sf::Vector2f(198 + (i + 1) * tileSize.x, j * tileSize.y);
+            quad[2].position = sf::Vector2f(198 + (i + 1) * tileSize.x, (j + 1) * tileSize.y);
+            quad[3].position = sf::Vector2f(198 + i * tileSize.x, (j + 1) * tileSize.y);
 
             // define its 4 texture coordinates
             quad[0].texCoords = sf::Vector2f(tu * tileSize.x, 0 * tileSize.y);
@@ -60,5 +73,6 @@ void map_render(sf::RenderWindow *window, int **matrix) {
     states.texture = &tileset;
 
     // draw the vertex array
-    window->draw(vertices,states);
+    window->draw(vertices, states);
+
 }
