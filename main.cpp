@@ -72,6 +72,7 @@ int main() {
                             if (file_data.correct_file == 1) {
                                 current = scenes::game;
                                 time = sf::seconds(0);
+                                clock.restart();
                             } else
                                 open_alert_box("Niepoprawny plik","Komunikat");
 
@@ -81,6 +82,7 @@ int main() {
                             if (file_data.correct_file == 1){
                                 current=scenes::game;
                                 time = sf::seconds(file_data.game_time);
+                                clock.restart();
                             }
                             else
                                 open_alert_box("Niepoprawny plik","Komunikat");
