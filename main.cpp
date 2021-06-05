@@ -20,7 +20,7 @@ int main() {
     game_declare();
     sf::ContextSettings window_exit;
     window_exit.antialiasingLevel = 2;
-    sf::RenderWindow window(sf::VideoMode(1200, 800), "Sokoban - Bartosz Adamczyk, Pawel Dopierala", sf::Style::Close,
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "Sokoban - Bartosz  Adamczyk, Pawel Dopierala", sf::Style::Close,
                             window_exit);
     window.setFramerateLimit(120);
     window.setVerticalSyncEnabled(true);

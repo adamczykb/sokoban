@@ -2,7 +2,6 @@
 // Created by joulupukki on 10.05.2021.
 //
 
-#include "stdio.h"
 #include "movement.h"
 
 Hero find_hero(int **matrix){
