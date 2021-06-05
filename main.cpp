@@ -58,6 +58,7 @@ int main() {
                         }
                         if (localPosition.y >= 500 and localPosition.y < 500 + 105) { //load
                             file_data = read_saved_map();
+                            time = sf::seconds(file_data.game_time);
                         }
                         if (localPosition.y >= 625 and localPosition.y < 625 + 105) { //exit
                             exit(0);
