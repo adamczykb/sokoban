@@ -12,7 +12,7 @@ enum scenes {
 enum scenes current;
 sf::Font font;
 File_data file_data;
-
+ 
 int main() {
     sf::Clock clock;
     sf::Time time;
